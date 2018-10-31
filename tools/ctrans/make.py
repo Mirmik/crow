@@ -26,7 +26,7 @@ application("ctrans",
 		("gxx.syslock", "mutex"),
 		("gxx.serial"),
 	],
-	cxx_flags = "",
+	cxx_flags = "-Wextra -Wall",
 	libs = ["pthread", "readline"]
 )
 
