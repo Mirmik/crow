@@ -2,8 +2,8 @@
 
 #include <crow/tower.h>
 
-#include <gxx/gstuff/autorecv.h>
-#include <gxx/gstuff/gstuff.h>
+#include <igris/gstuff/autorecv.h>
+#include <igris/gstuff/gstuff.h>
 
 #include <unistd.h>
 #include <fcntl.h>
@@ -101,8 +101,8 @@ void crow_serial_gstuff_send(struct crow_gw* gw, struct crowket* pack)
 
 	struct crow_serial_gstuff* g = mcast_out(gw, struct crow_serial_gstuff, gw);
 	/*std::string str;
-	gxx::io::std_string_writer strm(str);
-	gxx::gstuff::sender sender(strm);
+	igris::io::std_string_writer strm(str);
+	igris::gstuff::sender sender(strm);
 
 	sender.start_message();
 	sender.write((char*)&pack->header, pack->header.flen);
@@ -139,7 +139,7 @@ void crow_serial_gstuff_nblock_onestep(struct crow_gw* gw)
 	int len = read(g->fd, (uint8_t*)&c, 1);
 	//int len = ser->read((uint8_t*)&c, 1);
 	if (len == 1) {
-		//dprhex(c); dpr("\t"); gxx::println(gxx::dstring(&c, 1));
+		//dprhex(c); dpr("\t"); igris::println(igris::dstring(&c, 1));
 		gstuff_autorecv_newchar(&g->recver, c);
 	}
 }

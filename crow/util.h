@@ -6,13 +6,13 @@
 #define G1_UTIL_H
 
 #include <string>
-#include <gxx/datastruct/iovec.h>
+#include <igris/datastruct/iovec.h>
 
 #include <g1/packet.h>
 #include <g1/tower.h>
 #include <g1/indexes.h>
 
-#include <gxx/inet/dgramm.h>
+#include <igris/inet/dgramm.h>
 
 namespace g1 {
 	namespace util {

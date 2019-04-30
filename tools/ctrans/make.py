@@ -7,7 +7,7 @@ from licant.libs import include
 import os
 
 licant.libs.include("crow")
-licant.libs.include("gxx")
+licant.libs.include("igris")
 
 application("ctrans", 
 	sources = ["main.c"],
@@ -19,12 +19,12 @@ application("ctrans",
 		("crow.udpgate"),
 		("crow.serial_gstuff"),
 		
-		("gxx", "posix"),
-		("gxx.inet", "posix"),
-		("gxx.print", "cout"),
-		("gxx.dprint", "cout"),
-		("gxx.syslock", "mutex"),
-		("gxx.serial"),
+		("igris", "posix"),
+		("igris.inet", "posix"),
+		("igris.print", "cout"),
+		("igris.dprint", "cout"),
+		("igris.syslock", "mutex"),
+		("igris.serial"),
 	],
 	cxx_flags = "-Wextra -Wall",
 	libs = ["pthread", "readline"]

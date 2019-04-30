@@ -5,19 +5,19 @@
 #include <stdbool.h>
 #include <crow/tower.h>
 #include <crow/host.h>
-//#include <gxx/util/hexascii.h>
-//#include <gxx/algorithm.h>
-//#include <gxx/util/string.h>
-#include <gxx/syslock.h>
-#include <gxx/util/hexer.h>
-//#include <gxx/print/stdprint.h>
+//#include <igris/util/hexascii.h>
+//#include <igris/algorithm.h>
+//#include <igris/util/string.h>
+#include <igris/syslock.h>
+#include <igris/util/hexer.h>
+//#include <igris/print/stdprint.h>
 
-#include <gxx/debug/dprint.h>
+#include <igris/debug/dprint.h>
 
-/*gxx::dlist<crow_gw_t, &crow_gw_t::lnk> crow_gw_ts;
-gxx::dlist<crowket_t, &crowket_t::lnk> crow_travelled;
-gxx::dlist<crowket_t, &crowket_t::lnk> crow_incoming;
-gxx::dlist<crowket_t, &crowket_t::lnk> crow_outters;*/
+/*igris::dlist<crow_gw_t, &crow_gw_t::lnk> crow_gw_ts;
+igris::dlist<crowket_t, &crowket_t::lnk> crow_travelled;
+igris::dlist<crowket_t, &crowket_t::lnk> crow_incoming;
+igris::dlist<crowket_t, &crowket_t::lnk> crow_outters;*/
 
 DLIST_HEAD(crow_gateways);
 DLIST_HEAD(crow_travelled);
@@ -391,7 +391,7 @@ void crow_onestep()
 	}
 
 	uint16_t curtime = crow_millis();
-	//gxx::for_each_safe(crow_outters.begin(), crow_outters.end(), [&](crowket_t& pack) {
+	//igris::for_each_safe(crow_outters.begin(), crow_outters.end(), [&](crowket_t& pack) {
 	dlist_for_each_entry_safe(pack, n, &crow_outters, lnk)
 	{
 		if (curtime - pack->last_request_time > pack->header.ackquant)
@@ -466,5 +466,5 @@ crow_host::~host() {
 }*/
 
 /*void crow_print_dump(crowket_t* pack) {
-	gxx::println(gxx::dstring(&pack->header, pack->header.flen));
+	igris::println(igris::dstring(&pack->header, pack->header.flen));
 } */

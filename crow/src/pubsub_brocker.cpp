@@ -1,6 +1,6 @@
 #include <crow/pubsub.h>
 #include <crow/brocker.h>
-#include <gxx/print/stdprint.h>
+#include <igris/print/stdprint.h>
 
 #include <unordered_map>
 
@@ -63,9 +63,9 @@ std::unordered_map<std::string, crow::theme> themes;
 
 void brocker_publish(const std::string& theme, const std::string& data)
 {
-	gxx::println("brocker_publish");
-	gxx::println("theme: ", theme);
-	gxx::println("data: ", data);
+	igris::println("brocker_publish");
+	igris::println("theme: ", theme);
+	igris::println("data: ", data);
 
 	try
 	{
@@ -74,13 +74,13 @@ void brocker_publish(const std::string& theme, const std::string& data)
 	}
 	catch (std::exception ex)
 	{
-		gxx::println("unres theme");
+		igris::println("unres theme");
 	}
 }
 
 void brocker_subscribe(uint8_t* raddr, size_t rlen, const std::string& theme, crow::QoS qos, uint16_t ackquant)
 {
-	gxx::println("add subscribe");
+	igris::println("add subscribe");
 
 	crow::host host(raddr, rlen);
 
@@ -89,7 +89,7 @@ void brocker_subscribe(uint8_t* raddr, size_t rlen, const std::string& theme, cr
 		themes[theme] = crow::theme(theme);
 	}
 
-	GXX_PRINT(theme);
+	igris_PRINT(theme);
 
 	auto& thm = themes[theme];
 	thm.subs.emplace(host, true, qos, ackquant);
@@ -98,7 +98,7 @@ void brocker_subscribe(uint8_t* raddr, size_t rlen, const std::string& theme, cr
 
 void crow::incoming_pubsub_packet(crow::packet* pack)
 {
-	//gxx::println("crow::incoming_pubsub_packet");
+	//igris::println("crow::incoming_pubsub_packet");
 
 	auto shps = crow::get_subheader_pubsub(pack);
 
@@ -119,7 +119,7 @@ void crow::incoming_pubsub_packet(crow::packet* pack)
 		} break;
 		default:
 		{
-			gxx::println("unresolved pubsub frame type");
+			igris::println("unresolved pubsub frame type");
 		} break;
 	}
 	crow::release(pack);
@@ -134,7 +134,7 @@ void crow::theme::publish(const std::string& data)
 	subps.thmsz = name.size();
 	subps_d.datsz = data.size();
 
-	gxx::iovec vec[4] =
+	igris::iovec vec[4] =
 	{
 		{ &subps, sizeof(subps) },
 		{ &subps_d, sizeof(subps_d) },

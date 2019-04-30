@@ -2,7 +2,7 @@
 //#include <crow/nodes/test.h>
 //#include <crow/nodes/action.h>
 #include <crow/tower.h>
-#include <gxx/syslock.h>
+#include <igris/syslock.h>
 
 DLIST_HEAD(crow_nodes);
 
@@ -43,7 +43,7 @@ void crow_link_node(crow_node_t* srv, uint16_t id) {
 	return tsrv;
 }
 
-crow::action_node* crow::create_action_node(int port, gxx::delegate<void, crow::packet*> dlg) {
+crow::action_node* crow::create_action_node(int port, igris::delegate<void, crow::packet*> dlg) {
 	auto asrv = new crow::action_node(dlg);
 	crow::link_node(asrv, port);
 	return asrv;

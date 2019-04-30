@@ -11,11 +11,11 @@ namespace crow {
 
 		void incoming_packet(crow::packet* pack) override {
 			if (!quite) {
-				/*gxx::fprintln("echo service incoming_message {0}", gxx::buffer(msg->data, msg->size));
-				GXX_PRINT(msg->sid);
-				GXX_PRINT(msg->rid);
-				GXX_PRINT(msg->pack->header.alen);
-				gxx::writeln(msg->data, msg->size);*/				
+				/*igris::fprintln("echo service incoming_message {0}", igris::buffer(msg->data, msg->size));
+				igris_PRINT(msg->sid);
+				igris_PRINT(msg->rid);
+				igris_PRINT(msg->pack->header.alen);
+				igris::writeln(msg->data, msg->size);*/				
 			}
 
 			auto sh = crow::get_subheader(pack);

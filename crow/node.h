@@ -29,11 +29,11 @@ static inline crow_subheader_t* crow_get_subheader(crowket_t* pack) {
 	return (crow_subheader_t*) crowket_dataptr(pack);
 }
 
-/*static inline gxx::buffer crow_get_datasect(crow::packet* pack) {
-	return gxx::buffer(pack->dataptr() + sizeof(subheader), pack->datasize() - sizeof(subheader));
+/*static inline igris::buffer crow_get_datasect(crow::packet* pack) {
+	return igris::buffer(pack->dataptr() + sizeof(subheader), pack->datasize() - sizeof(subheader));
 }*/	
 
-//extern gxx::dlist<crow::node, &crow::node::lnk> nodes;
+//extern igris::dlist<crow::node, &crow::node::lnk> nodes;
 extern struct dlist_head crow_nodes;
 
 /// Добавить сервис к ядру.

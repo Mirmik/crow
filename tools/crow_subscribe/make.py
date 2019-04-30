@@ -6,7 +6,7 @@ from licant.cxx_modules import application
 from licant.libs import include
 import os
 
-licant.libs.include("gxx")
+licant.libs.include("igris")
 licant.libs.include("crow")
 
 application("crow_subscribe",
@@ -18,12 +18,12 @@ application("crow_subscribe",
 
 		("crow.udpgate"),
 
-		("gxx", "posix"),
-		("gxx.trent"),
-		("gxx.inet", "posix"),
-		("gxx.print", "cout"),
-		("gxx.dprint", "cout"),
-		("gxx.syslock", "mutex"),
+		("igris", "posix"),
+		("igris.trent"),
+		("igris.inet", "posix"),
+		("igris.print", "cout"),
+		("igris.dprint", "cout"),
+		("igris.syslock", "mutex"),
 	],
 	cxx_flags = ""
 )

@@ -14,7 +14,7 @@ void crow::channel::incoming_packet(crow::packet* pack) {
 
 	switch(sh2->ftype) {
 		case crow::Frame::HANDSHAKE:
-			gxx::println("HANDSHAKE");
+			igris::println("HANDSHAKE");
 			if (state == crow::State::INIT) {
 				crow::subheader_handshake* shh = crow::get_subheader_handshake(pack);
 				rid = sh0->sid;
@@ -27,16 +27,16 @@ void crow::channel::incoming_packet(crow::packet* pack) {
 
 			}
 			else {
-				gxx::panic("no INIT state");
+				igris::panic("no INIT state");
 				//unknown_port(pack);
 			}
 			break;
 		case crow::Frame::DATA:
-			gxx::println("DATA");
+			igris::println("DATA");
 			incoming_data_packet(pack);
 			return;
 		case crow::Frame::REFUSE:
-			gxx::println("REFUSE");
+			igris::println("REFUSE");
 			state = crow::State::DISCONNECTED;
 			break;
 		default: break;
@@ -73,14 +73,14 @@ void crow::handshake(crow::channel* ch, uint16_t rid, const void* raddr_ptr, siz
 	ch->qos = shh.qos = qos;
 	ch->ackquant = shh.ackquant = ackquant;
 
-	gxx::iovec vec[] = {
+	igris::iovec vec[] = {
 		{&sh0, sizeof(sh0)},
 		{&sh2, sizeof(sh2)},
 		{&shh, sizeof(shh)},
 	};
 
 	ch->state = crow::State::CONNECTED;
-	crow::send(raddr_ptr, raddr_len, vec, sizeof(vec) / sizeof(gxx::iovec), G1_G0TYPE, crow::QoS(2), ackquant);
+	crow::send(raddr_ptr, raddr_len, vec, sizeof(vec) / sizeof(igris::iovec), G1_G0TYPE, crow::QoS(2), ackquant);
 }
 
 void crow::__channel_send(crow::channel* ch, const char* data, size_t size) {
@@ -91,12 +91,12 @@ void crow::__channel_send(crow::channel* ch, const char* data, size_t size) {
 	sh2.frame_id = ch->fid++;
 	sh2.ftype = crow::Frame::DATA;	
 
-	gxx::iovec vec[] = {
+	igris::iovec vec[] = {
 		{&sh0, sizeof(sh0)},
 		{&sh2, sizeof(sh2)},
 		{data, size},
 	};
-	crow::send(ch->raddr_ptr, ch->raddr_len, vec, sizeof(vec) / sizeof(gxx::iovec), G1_G0TYPE, ch->qos, ch->ackquant);
+	crow::send(ch->raddr_ptr, ch->raddr_len, vec, sizeof(vec) / sizeof(igris::iovec), G1_G0TYPE, ch->qos, ch->ackquant);
 }
 
 uint16_t crow::dynport() {

@@ -7,8 +7,8 @@
 
 #include <crow/node.h>
 #include <crow/host.h>
-#include <gxx/syslock.h>
-//#include <gxx/event/delegate.h>
+//#include <igris/syslock.h>
+//#include <igris/event/delegate.h>
 /*
 namespace crow {
 	enum class State {
@@ -61,13 +61,13 @@ namespace crow {
 		return (subheader_handshake*) (pack->dataptr() + sizeof(crow::subheader) + sizeof(crow::subheader_channel));
 	}
 
-	static inline gxx::buffer get_datasect_channel(crow::packet* pack) {
-		return gxx::buffer(pack->dataptr() + sizeof(crow::subheader) + sizeof(crow::subheader_channel), pack->datasize() - sizeof(crow::subheader) - sizeof(crow::subheader_channel));
+	static inline igris::buffer get_datasect_channel(crow::packet* pack) {
+		return igris::buffer(pack->dataptr() + sizeof(crow::subheader) + sizeof(crow::subheader_channel), pack->datasize() - sizeof(crow::subheader) - sizeof(crow::subheader_channel));
 	}	
 
 	//crow::channel* get_channel(uint16_t id);
 
-	//extern gxx::dlist<crow::channel, &crow::channel::lnk> channels;
+	//extern igris::dlist<crow::channel, &crow::channel::lnk> channels;
 
 	/// Добавить сервис к ядру.
 	void link_channel(crow::channel* srvs, uint16_t id);
@@ -82,13 +82,13 @@ namespace crow {
 	};
 
 	struct acceptor : public crow::node {
-		gxx::delegate<crow::channel*> init_channel;
-		acceptor(gxx::delegate<crow::channel*> init_channel) : init_channel(init_channel) {}
+		igris::delegate<crow::channel*> init_channel;
+		acceptor(igris::delegate<crow::channel*> init_channel) : init_channel(init_channel) {}
 
 		void incoming_packet(crow::packet* pack) override;
 	};
 
-	static inline acceptor* create_acceptor(uint16_t port, gxx::delegate<crow::channel*> dlg) {
+	static inline acceptor* create_acceptor(uint16_t port, igris::delegate<crow::channel*> dlg) {
 		auto asrv = new crow::acceptor(dlg);
 		crow::link_node(asrv, port);
 		return asrv;

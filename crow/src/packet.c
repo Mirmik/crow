@@ -7,7 +7,7 @@
 
 #include <crow/packet.h>
 #include <crow/gateway.h>
-#include <gxx/syslock.h>
+#include <igris/syslock.h>
 
 crowket_t* crow_create_packet(crow_gw_t* ingate, size_t addrsize, size_t datasize) { 
 	system_lock();

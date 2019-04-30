@@ -4,12 +4,12 @@
 #include <thread>
 #include <getopt.h>
 
-#include <gxx/trent/trent.h>
-#include <gxx/trent/json.h>
-#include <gxx/trent/gbson.h>
+#include <igris/trent/trent.h>
+#include <igris/trent/json.h>
+#include <igris/trent/gbson.h>
 
-#include <gxx/util/numconvert.h>
-#include <gxx/util/hexer.h>
+#include <igris/util/numconvert.h>
+#include <igris/util/hexer.h>
 
 #include <sstream>
 
@@ -81,21 +81,21 @@ int main(int argc, char* argv[])
 
 	if (argc - optind != 2)
 	{
-		gxx::println("Usage: crow_publish theme data");
+		igris::println("Usage: crow_publish theme data");
 		exit(-1);
 	}
 
 	if (crowker == nullptr)
 	{
-		gxx::println("Enviroment variable CROWKER doesn't setted");
+		igris::println("Enviroment variable CROWKER doesn't setted");
 		exit(-1);
 	}
 
 	std::string theme = argv[optind];
 	std::string data = argv[optind + 1];
 
-	GXX_PRINT(theme);
-	GXX_PRINT(data);
+	igris_PRINT(theme);
+	igris_PRINT(data);
 
 	crowker_len = hexer(crowker_addr, 128, crowker, strlen(crowker));
 	crow_set_publish_host(crowker_addr, crowker_len);
@@ -104,28 +104,28 @@ int main(int argc, char* argv[])
 	{
 		char buf[256];
 		std::stringstream istrm(data);
-		gxx::trent tr = gxx::json::parse(istrm).unwrap();
-		int len = gxx::gbson::dump(tr, buf, 256);
+		igris::trent tr = igris::json::parse(istrm).unwrap();
+		int len = igris::gbson::dump(tr, buf, 256);
 
 		crow_publish_buffer(theme.data(), buf, len, qos, acktime);
 	}
 	else if (bindata)
 	{
-		//gxx::println(argv[optind+1]);
+		//igris::println(argv[optind+1]);
 
-		auto sv = gxx::split(argv[optind + 1], ',');
-		//gxx::println(sv);
+		auto sv = igris::split(argv[optind + 1], ',');
+		//igris::println(sv);
 
 		using ptype = std::pair<std::string, std::string>;
 		std::vector<ptype> vec;
 
 		for (auto s : sv)
 		{
-			auto p = gxx::split(s, ':');
+			auto p = igris::split(s, ':');
 			vec.emplace_back(p[0], p[1]);
 		}
 
-		//gxx::println(vec);
+		//igris::println(vec);
 
 		size_t sz = 0;
 
@@ -136,12 +136,12 @@ int main(int argc, char* argv[])
 
 		for (auto s : vec)
 		{
-			gxx::println(s.first);
+			igris::println(s.first);
 			visitor_conv[s.first](s.second, ptr);
 			ptr += visitor_size[s.first];
 		}
 
-		gxx::print_dump(block, sz);
+		igris::print_dump(block, sz);
 
 		crow_publish_buffer(theme.data(), block, sz, qos, acktime);
 	}

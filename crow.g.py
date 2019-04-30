@@ -14,7 +14,8 @@ licant.modules.module("crow",
 		"pubsub.c",
 		"print.cpp",
 	],
-	include_paths=["."]
+	include_paths=["."],
+	mdepends=["igris.include", "igris.util"]
 )
 
 licant.modules.module("crow.allocator", "malloc",

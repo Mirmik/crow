@@ -1,9 +1,9 @@
 #ifndef G0_TEST_H
 #define G0_TEST_H
 
-#include <gxx/util/string.h>
-#include <gxx/print.h>
-#include <gxx/print/stdprint.h>
+#include <igris/util/string.h>
+#include <igris/print.h>
+#include <igris/print/stdprint.h>
 #include <crow/tower.h>
 
 namespace crow {
@@ -12,8 +12,8 @@ namespace crow {
 			auto sh = crow::get_subheader(pack);
 			auto data = crow::get_datasect(pack);
 			crow::println(pack);
-			gxx::fprintln("subheader: sid={}, rid={}", (uint16_t)sh->sid, (uint16_t)sh->rid);
-			gxx::fprintln("datasect: {}", gxx::dstring(data));
+			igris::fprintln("subheader: sid={}, rid={}", (uint16_t)sh->sid, (uint16_t)sh->rid);
+			igris::fprintln("datasect: {}", igris::dstring(data));
 			crow::release(pack);
 		}
 	};

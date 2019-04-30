@@ -6,7 +6,7 @@ import licant.libs
 from licant.cxx_modules import application
 from licant.modules import submodule
 
-licant.libs.include("gxx")
+licant.libs.include("igris")
 licant.libs.include("crow")
 
 application("target",
@@ -20,10 +20,10 @@ application("target",
 	],
 	include_paths = ["../.."],
 	include_modules = [
-		("gxx", "posix"),
-		("gxx.print", "cout"),
-		("gxx.dprint", "cout"),
-		("gxx.syslock", "mutex"),
+		("igris", "posix"),
+		("igris.print", "cout"),
+		("igris.dprint", "cout"),
+		("igris.syslock", "mutex"),
 
 		("crow.include"),
 		#("crow.allocator", "malloc"),

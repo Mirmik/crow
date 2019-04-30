@@ -7,7 +7,7 @@
 #include <crow/gates/udpgate.h>
 
 void incoming(crow::packet* pack) {
-	gxx::println("incoming");
+	igris::println("incoming");
 
 	switch(pack->header.type) {
 		case G1_G0TYPE:
@@ -19,7 +19,7 @@ void incoming(crow::packet* pack) {
 }
 
 void hello(crow::packet* pack) {
-	gxx::println("HelloWorld!!!!!");
+	igris::println("HelloWorld!!!!!");
 }
 
 int main() {

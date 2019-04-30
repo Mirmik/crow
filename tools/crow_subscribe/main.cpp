@@ -1,15 +1,15 @@
 #include <crow/tower.h>
 #include <crow/pubsub.h>
-#include <gxx/print/stdprint.h>
+#include <igris/print/stdprint.h>
 #include <crow/gates/udpgate.h>
 #include <thread>
 #include <getopt.h>
 
 #include <sstream>
 
-#include <gxx/trent/trent.h>
-#include <gxx/trent/gbson.h>
-#include <gxx/util/hexer.h>
+#include <igris/trent/trent.h>
+#include <igris/trent/gbson.h>
+#include <igris/util/hexer.h>
 
 uint8_t crowker_addr[256];
 size_t crowker_len;
@@ -29,15 +29,15 @@ void subscribe_handler(crowket* pack)
 
 	if (!gbson_flag)
 	{
-		gxx::println(gxx::dstring(data));
+		igris::println(igris::dstring(data));
 	}
 	else
 	{
 		//std::string str(dat.data(), dat.size());
 		//std::stringstream strm(str);
-		gxx::trent tr;
-		gxx::gbson::load(tr, data.data(), data.size());
-		gxx::println(tr);
+		igris::trent tr;
+		igris::gbson::load(tr, data.data(), data.size());
+		igris::println(tr);
 	}
 }
 
@@ -82,13 +82,13 @@ int main(int argc, char* argv[])
 
 	if (argc - optind != 1)
 	{
-		gxx::println("Usage: crow_publish theme");
+		igris::println("Usage: crow_publish theme");
 		exit(-1);
 	}
 
 	if (crowker == nullptr)
 	{
-		gxx::println("Enviroment variable CROWKER doesn't setted");
+		igris::println("Enviroment variable CROWKER doesn't setted");
 		exit(-1);
 	}
 

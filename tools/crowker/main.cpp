@@ -15,7 +15,7 @@ bool sniffer_option = false;
 
 void sniffer_travel_handler(struct crowket* pack)
 {
-//	gxx::print("travel: ");
+//	igris::print("travel: ");
 //	crow::println(pack);
 }
 
@@ -62,7 +62,7 @@ void undelivered_handler(struct crowket* pack)
 			auto& thm = themes[theme];
 			thm.subs.erase(crow::g3_subscriber(crowket_addrptr(pack), pack->header.alen, pack->header.qos, pack->header.ackquant));
 			if (brocker_info)
-				gxx::fprintln("g3_refuse: t:{}, r:{}", theme, gxx::hexascii_encode(crowket_addrptr(pack), pack->header.alen));
+				igris::fprintln("g3_refuse: t:{}, r:{}", theme, igris::hexascii_encode(crowket_addrptr(pack), pack->header.alen));
 		}
 	}
 

@@ -1,8 +1,8 @@
 #include "brocker.h"
 #include <crow/pubsub.h>
 #include <sys/uio.h>
-#include <gxx/print.h>
-#include <gxx/util/string.h>
+#include <igris/print.h>
+#include <igris/util/string.h>
 
 std::unordered_map<std::string, crow::theme> themes;
 bool brocker_info = false;
@@ -10,7 +10,7 @@ bool brocker_info = false;
 void brocker_publish(const std::string& theme, const std::string& data)
 {
 	if (brocker_info) {
-		gxx::fprintln("publish: t:{} d:{}", theme, gxx::dstring(data));
+		igris::fprintln("publish: t:{} d:{}", theme, igris::dstring(data));
 	}
 
 	try
@@ -20,7 +20,7 @@ void brocker_publish(const std::string& theme, const std::string& data)
 	}
 	catch (std::exception ex)
 	{
-		//gxx::println("unres theme");
+		//igris::println("unres theme");
 	}
 }
 
@@ -28,7 +28,7 @@ void brocker_publish(const std::string& theme, const std::string& data)
 void g3_brocker_subscribe(uint8_t* raddr, size_t rlen, const std::string& theme, uint8_t qos, uint16_t ackquant)
 {
 	if (brocker_info) {
-		gxx::fprintln("g3_subscribe: t:{} f:{}", theme, gxx::hexascii_encode(raddr, rlen));
+		igris::fprintln("g3_subscribe: t:{} f:{}", theme, igris::hexascii_encode(raddr, rlen));
 	}
 
 	if (themes.count(theme) == 0)
