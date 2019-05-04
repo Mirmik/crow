@@ -18,10 +18,6 @@ application("crowker",
 		
 		("crow.udpgate"),
 		
-		("igris", "posix"),
-#		("igris.inet", "posix"),
-		("igris.print", "cout"),
-		("igris.dprint", "cout"),
 		("igris.syslock", "mutex"),
 	],
 	cxx_flags = ""

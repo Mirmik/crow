@@ -7,27 +7,28 @@ from licant.libs import include
 import os
 
 licant.libs.include("crow")
+
+licant.libs.include("nos")
 licant.libs.include("igris")
+
+gates = [
+	"crow.udpgate",
+	#"crow.serial_gstuff",
+]
+
+mdepends = ["crow"]
+mdepends.extend(gates)
 
 application("ctrans", 
 	sources = ["main.c"],
-	include_modules = [
-		("crow"),
-		("crow.allocator", "malloc"),
-		("crow.time", "chrono"),
-	
-		("crow.udpgate"),
-		("crow.serial_gstuff"),
-		
-		("igris", "posix"),
-		("igris.inet", "posix"),
-		("igris.print", "cout"),
-		("igris.dprint", "cout"),
-		("igris.syslock", "mutex"),
-		("igris.serial"),
-	],
+	mdepends = mdepends,
 	cxx_flags = "-Wextra -Wall",
-	libs = ["pthread", "readline"]
+	libs = ["pthread", "readline"],
+	defines=[
+		"GATES_UDPGATE",
+		#"GATES_SERIAL_GSTUFF_GATE",
+		"CONSOLE_INTERFACE"
+	]
 )
 
 @licant.routine

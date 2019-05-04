@@ -1,11 +1,14 @@
 #include <crow/tower.h>
-#include <igris/print.h>
-#include <igris/print/stdprint.h>
+
+#include <nos/print.h>
+#include <nos/fprint.h>
+
+#include <igris/util/dstring.h>
 #include <igris/util/hexascii.h>
 #include <igris/util/string.h>
 
-void crow_print_to(igris::io::ostream& out, crowket_t* pack) {
-	igris::fprint_to(out, "("
+void crow_print_to(nos::ostream& out, crowket_t* pack) {
+	nos::fprint_to(out, "("
 		"qos:{}, "
 		"ack:{}, "
 		"alen:{}, "
@@ -27,10 +30,10 @@ void crow_print_to(igris::io::ostream& out, crowket_t* pack) {
 }
 
 void crow_print(crowket_t* pack) {
-	crow_print_to(*igris::standart_output, pack);
+	crow_print_to(*nos::current_ostream, pack);
 }
 
 void crow_println(crowket_t* pack) {
-	crow_print_to(*igris::standart_output, pack);
-	igris::print_to(*igris::standart_output, "\n");
+	crow_print_to(*nos::current_ostream, pack);
+	nos::print_to(*nos::current_ostream, "\n");
 }

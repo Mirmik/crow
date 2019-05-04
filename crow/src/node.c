@@ -2,7 +2,7 @@
 //#include <crow/nodes/test.h>
 //#include <crow/nodes/action.h>
 #include <crow/tower.h>
-#include <igris/syslock.h>
+#include <igris/sync/syslock.h>
 
 DLIST_HEAD(crow_nodes);
 

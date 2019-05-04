@@ -8,11 +8,10 @@
 //#include <igris/util/hexascii.h>
 //#include <igris/algorithm.h>
 //#include <igris/util/string.h>
-#include <igris/syslock.h>
-#include <igris/util/hexer.h>
+#include <igris/sync/syslock.h>
 //#include <igris/print/stdprint.h>
 
-#include <igris/debug/dprint.h>
+#include <igris/dprint.h>
 
 /*igris::dlist<crow_gw_t, &crow_gw_t::lnk> crow_gw_ts;
 igris::dlist<crowket_t, &crowket_t::lnk> crow_travelled;

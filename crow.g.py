@@ -12,32 +12,48 @@ licant.modules.module("crow",
 		"node.c",
 		"channel.c",
 		"pubsub.c",
+		"hexer.c",
 		"print.cpp",
 	],
 	include_paths=["."],
-	mdepends=["igris.include", "igris.util"]
-)
+	mdepends=[
+		"igris.include", 
+		"igris.util",
 
-licant.modules.module("crow.allocator", "malloc",
-	sources = [
-		"crow/src/allocation_malloc.c"
+		"igris.dprint",
+		"igris.syslock",
+
+		"nos.print",
+		"nos.fprint",
+		"nos.include",
+
+		"crow.allocator",
+		"crow.time"
 	]
 )
 
+licant.modules.module("crow.allocator", "malloc",
+	sources=[
+		"crow/src/allocation_malloc.c"
+	],
+	default=True
+)
+
 licant.modules.module("crow.udpgate",
-	sources = [
+	sources=[
 		"crow/gates/udpgate.c"
 	]
 )
 
 licant.modules.module("crow.serial_gstuff",
-	sources = [
+	sources=[
 		"crow/gates/serial_gstuff.c"
 	]
 )
 
 licant.modules.module("crow.time", "chrono",
-	sources = [
+	sources=[
 		"crow/src/stdtime.cpp"
-	]
+	],
+	default=True
 )
