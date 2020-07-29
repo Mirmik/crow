@@ -116,7 +116,7 @@ void crow::channel::handshake(const uint8_t *raddr_ptr,
 
 	sh_node.sid = id;
 	sh_node.rid = this->rid = rid;
-	sh_node.type = CROW_NODEPACK_COMMON;
+	sh_node.flags = CROW_NTYPE_COMMON;
 
 	sh_channel.frame_id = 0;
 	sh_channel.ftype = crow::Frame::HANDSHAKE_REQUEST;
@@ -146,7 +146,7 @@ void crow::channel::send_handshake_answer()
 
 	sh_node.sid = id;
 	sh_node.rid = rid;
-	sh_node.type = CROW_NODEPACK_COMMON;
+	sh_node.flags = CROW_NTYPE_COMMON;
 
 	sh_channel.frame_id = 0;
 	sh_channel.ftype = crow::Frame::HANDSHAKE_ANSWER;
@@ -178,7 +178,7 @@ int crow::channel::send(const char *data, size_t size)
 
 	sh_node.sid = this->id;
 	sh_node.rid = this->rid;
-	sh_node.type = CROW_NODEPACK_COMMON;
+	sh_node.flags = CROW_NTYPE_COMMON;
 
 	sh_channel.frame_id = this->fid++;
 	sh_channel.ftype = crow::Frame::DATA;

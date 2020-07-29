@@ -47,7 +47,7 @@ crow::packet_ptr crow::node_send_v(uint16_t sid,
 	return crow::send_vv(addr, iov, 1, vec, veclen, CROW_NODE_PROTOCOL, qos, ackquant);
 }
 
-void crow::node_protocol_cls::send_node_error(
+/*void crow::node_protocol_cls::send_node_error(
     crow::packet *pack, int errcode)
 {
 	crow::node_subheader sh;
@@ -63,7 +63,7 @@ void crow::node_protocol_cls::send_node_error(
 	};
 
 	crow::send_v(pack->addr(), iov, 2, CROW_NODE_PROTOCOL, 0, pack->ackquant());
-}
+}*/
 
 void crow::node_protocol_cls::incoming(crow::packet *pack)
 {
@@ -86,17 +86,17 @@ void crow::node_protocol_cls::incoming(crow::packet *pack)
 		return;
 	}
 
-	switch (sh->type)
+	/*switch (sh->type)
 	{
 		case CROW_NODEPACK_COMMON:
-			srv->incoming_packet(pack);
-			break;
+	*/		srv->incoming_packet(pack);
+	//		break;
 
-		case CROW_NODEPACK_ERROR:
-			srv->notify_one(get_error_code(pack));
-			crow::release(pack);
-			break;
-	}
+	//	case CROW_NODEPACK_ERROR:
+	//		srv->notify_one(get_error_code(pack));
+	//		crow::release(pack);
+	//		break;
+	//}
 	return;
 }
 
@@ -152,7 +152,7 @@ void crow::bind_node_dynamic(crow::node *srv)
 
 
 
-void crow::system_node_cls::incoming_packet(crow::packet *pack)
+/*void crow::system_node_cls::incoming_packet(crow::packet *pack)
 {
 	crow::node_subheader *sh = (crow::node_subheader *) pack->dataptr();
 	auto data = node_data(pack);
@@ -174,4 +174,4 @@ void crow::system_node_cls::incoming_packet(crow::packet *pack)
 		node_send(0, sh->sid, pack->addr(), {buf, strlen(buf)}, 0, 200);
 
 	}
-}
+}*/

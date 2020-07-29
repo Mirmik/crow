@@ -4,6 +4,7 @@
 */
 
 #include <crow/proto/msgbox.h>
+
 #include <igris/event/delegate.h>
 #include <igris/binreader.h>
 
@@ -18,16 +19,17 @@
 
 namespace crow
 {
-	class service;
+	void service_registration(const crow::hostaddr & addr, const crow::node & node, const char * mnemo, uint8_t qos, uint16_t ackquant);
+
+	/*class service;
 
 	struct service_package_annotation
 	{
-		uint8_t type = 2;
-		uint32_t second_mark;
-		uint16_t datalen;
-		uint16_t namelen;
-		uint8_t* data;
-		uint8_t* name;
+		uint8_t type;
+		uint16_t datalen = 0;
+		uint16_t namelen = 0;
+		const uint8_t* data = nullptr;
+		const char* name = nullptr;
 
 		int parse(igris::buffer message)
 		{
@@ -37,9 +39,8 @@ namespace crow
 				return -1;
 
 			reader.init(message.data());
-			
+
 			reader.read_binary(type);
-			reader.read_binary(second_mark);
 			reader.read_binary(datalen);
 			reader.read_binary(namelen);
 
@@ -52,24 +53,23 @@ namespace crow
 		void to_buffers(igris::buffer bufs[5])
 		{
 			bufs[0] = {&type, 1};
-			bufs[1] = {&second_mark, sizeof(second_mark)};
-			bufs[2] = {&datalen, sizeof(datalen)};
-			bufs[3] = {&namelen, sizeof(namelen)};
-			bufs[4] = {data, datalen};
-			bufs[5] = {name, namelen};
+			bufs[1] = {&datalen, sizeof(datalen)};
+			bufs[2] = {&namelen, sizeof(namelen)};
+			bufs[3] = {data, datalen};
+			bufs[4] = {name, namelen};
 		}
 	};
 
-	class service_packet_ptr : public node_packet_ptr
+	class service_request_ptr : public node_packet_ptr
 	{
 	public:
-		service_package_annotation & annot;
 		crow::service * srv;
+		service_package_annotation & annot;
 
-		service_packet_ptr(crow::packet *pack_,
+		service_request_ptr(crow::packet *pack_,
 		                   crow::service * srv,
 		                   service_package_annotation & annotation)
-			: node_packet_ptr(pack_), srv(srv), annot(annot)
+			: node_packet_ptr(pack_), srv(srv), annot(annotation)
 		{}
 
 		crow::service * service() { return srv; }
@@ -78,9 +78,22 @@ namespace crow
 		packet_ptr answer(igris::buffer data);
 	};
 
+	class service_answer_ptr : public node_packet_ptr
+	{
+	public:
+		service_package_annotation annot;
+
+		service_answer_ptr(const node_packet_ptr & ptr) : node_packet_ptr(ptr)
+		{
+			annot.parse(node_packet_ptr::message());			
+		}
+
+		igris::buffer   message() { return {annot.data, annot.datalen}; }
+};
+
 	class service : public crow::node
 	{
-		using dlg_t = igris::delegate <void, crow::service_packet_ptr>;
+		using dlg_t = igris::delegate <void, crow::service_request_ptr>;
 
 	private:
 		crow::hostaddr brocker_addr;
@@ -125,6 +138,9 @@ namespace crow
 			service_package_annotation annot;
 			igris::buffer buffers[5];
 
+			annot.type = CROW_SERVICE_REGISTER;
+			annot.name = _name;
+			annot.namelen = strlen(_name);
 			annot.to_buffers(buffers);
 
 			node::send_v(
@@ -134,6 +150,56 @@ namespace crow
 			    std::size(buffers),
 			    qos,
 			    ackquant);
+		}
+	};*/
+
+	class requester_sync : public crow::node
+	{
+		crow::packet * _answer;
+
+	public:
+		crow::node_packet_ptr query(const crow::hostaddr & addr,
+		                               const char * theme,
+		                               igris::buffer data,
+		                               uint8_t qos,
+		                               uint16_t ackquant)
+		{
+			uint8_t type = CROW_SERVICE_ONESHOOT;
+			uint8_t namelen = strlen(theme);
+			uint16_t datalen = data.size();
+
+			igris::buffer buffers[5] = 
+			{
+				{ &type, sizeof(type) },
+				{ &namelen, sizeof(namelen) },
+				{ &datalen, sizeof(datalen) },
+				{ theme, namelen },
+				{ data.data(), data.size() }
+			}
+
+			node::send_v(
+			           CROW_BROCKER_SERVICE_NODE,
+			           addr,
+			           buffers,
+			           std::size(buffers),
+			           qos,
+			           ackquant);
+
+			waitevent();
+
+			return _answer;
+		}
+
+	protected:
+		void incoming_packet(crow::packet * pack) 
+		{
+			_answer = pack;
+			notify_one(0);
+		}
+
+		void undelivered_packet(crow::packet * pack) 
+		{
+			notify_one(-1);
 		}
 	};
 }
