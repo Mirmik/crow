@@ -27,6 +27,8 @@ namespace crow
 		int bind(int gateno);
 #if !CROW_ENABLE_WITHOUT_FDS
 		virtual int get_fd() { return -1; }
+		virtual int fds_total() { return 0; }
+		virtual void set_fds_to_array(int *) {}
 #endif
 
 		gateway() { dlist_init(&lnk); }

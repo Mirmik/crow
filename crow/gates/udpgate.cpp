@@ -29,7 +29,6 @@ void crow::udpgate::nblock_onestep()
 
 	if (!block)
 		block = crow::allocate_packet(flen - sizeof(crow::header));
-	//(crow::packet *) malloc(flen + sizeof(crow::packet) - sizeof(crow::header));
 
 	len = recvfrom(sock, &block->header, flen,
 	               0, (struct sockaddr *)&sender, &sendsize);

@@ -5,7 +5,7 @@
 #include <igris/util/bug.h>
 #include <nos/print.h>
 
-void crow::channel::incoming_packet(crow::packet *pack)
+void crow::channel::incoming_packet(crow::packet_ptr pack)
 {
 	crow::node_subheader *sh_node = (node_subheader *) pack->dataptr();
 	crow::subheader_channel *sh_channel = crow::get_subheader_channel(pack);
@@ -83,20 +83,17 @@ void crow::channel::incoming_packet(crow::packet *pack)
 			BUG();
 			break;
 	}
-
-	crow::release(pack);
 }
 
-void crow::channel::incoming_data_packet(crow::packet * pack)
+void crow::channel::incoming_data_packet(crow::packet_ptr pack)
 {
 	this->incoming_handler(this, pack);
 }
 
-void crow::channel::undelivered_packet(crow::packet * pack)
+void crow::channel::undelivered_packet(crow::packet_ptr pack)
 {
 	notify_one(-1);
 	_state = CROW_CHANNEL_DISCONNECTED;
-	crow::release(pack);
 }
 
 void crow::channel::handshake(const uint8_t *raddr_ptr,
@@ -192,7 +189,7 @@ int crow::channel::send(const char *data, size_t size)
 }
 
 
-igris::buffer crow::channel::getdata(crow::packet *pack)
+igris::buffer crow::channel::getdata(crow::packet_ptr pack)
 {
 	return igris::buffer(pack->dataptr() + sizeof(crow::node_subheader) +
 	                     sizeof(crow::subheader_channel),

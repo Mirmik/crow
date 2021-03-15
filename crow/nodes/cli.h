@@ -20,16 +20,14 @@ namespace crow
 		cli_node(Dictionary&& dictionary) : dictionary(std::move(dictionary)) {}
 		cli_node(const Dictionary& dictionary) : dictionary(dictionary) {}
 
-		void incoming_packet(crow::packet *pack) override;
+		void incoming_packet(crow::packet_ptr pack) override;
 
-		void undelivered_packet(crow::packet *pack) override
-		{
-			crow::release(pack);
-		}
+		void undelivered_packet(crow::packet_ptr pack) override
+		{}
 	};
 
 	template <class Dictionary>
-	void crow::cli_node<Dictionary>::incoming_packet(crow::packet *pack)
+	void crow::cli_node<Dictionary>::incoming_packet(crow::packet_ptr pack)
 	{
 		auto sh = crow::node::subheader(pack);
 		auto data = crow::node_data(pack);
@@ -79,7 +77,6 @@ namespace crow
 		    	{buf, strlen(buf)}, 2, 200);
 
 	__end__:
-		crow::release(pack);
 		return;
 	}
 }

@@ -14,16 +14,11 @@
 
 void crow::packet_initialization(crow::packet *pack, crow::gateway *ingate)
 {
-	dlist_init(&pack->lnk);
-	dlist_init(&pack->ulnk);
-	pack->ingate = ingate;
-	pack->ackcount(5);
-	pack->flags = 0;
-	pack->refs = 0;
+	pack->init(ingate);
 }
 
 crow::packet *crow::create_packet(crow::gateway *ingate, uint8_t addrsize,
-								  size_t datasize)
+                                  size_t datasize)
 {
 	crow::packet *pack = crow::allocate_packet(addrsize + datasize);
 
@@ -68,7 +63,20 @@ void crow::packet::revert(igris::buffer *vec, size_t veclen)
 }
 
 
-bool crow::has_allocated() 
+bool crow::has_allocated()
 {
-	return !!allocated_count;	
+	return !!allocated_count;
+}
+
+crow::packet_ptr crow::packet::first_user_list_entry(dlist_head * head)
+{
+	igris::syslock_guard lock;
+	return dlist_first_entry(head, crow::packet, ulnk);
+}
+
+// change to packet_ptr
+crow::packet_ptr crow::packet::first_system_list_entry(dlist_head * head)
+{
+	igris::syslock_guard lock;
+	return dlist_first_entry(head, crow::packet, lnk);
 }

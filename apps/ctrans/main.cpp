@@ -165,7 +165,7 @@ std::string outformat_tostr()
 	return std::string();
 }
 
-void output_do(igris::buffer data, crow::packet* pack)
+void output_do(igris::buffer data, crow::packet_ptr pack)
 {
 	if (api)
 	{
@@ -372,7 +372,7 @@ void send_do(const std::string message)
 	}
 }
 
-void incoming_handler(crow::packet *pack)
+void incoming_handler(crow::packet_ptr pack)
 {
 	if (echo)
 	{
@@ -417,11 +417,9 @@ void incoming_handler(crow::packet *pack)
 		default:
 			output_do(pack->rawdata(), pack);
 	}
-
-	crow::release(pack);
 }
 
-void print_channel_message(crow::channel* ch, crow::packet* pack)
+void print_channel_message(crow::channel* ch, crow::packet_ptr pack)
 {
 	(void) ch;
 	(void) pack;

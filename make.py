@@ -26,6 +26,7 @@ licant.cxx_shared_library(target,
 		"crow",
 		"crow.crowker",
 		"crow.udpgate",
+		"crow.tcpgate",
 		"crow.serial_gstuff"
 	],
 

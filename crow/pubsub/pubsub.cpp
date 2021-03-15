@@ -11,7 +11,7 @@ crow::pubsub_protocol_cls& crow::pubsub_protocol_cls::instance()
 	return crow::pubsub_protocol;
 }
 
-void crow::pubsub_protocol_cls::incoming(crow::packet * pack)
+void crow::pubsub_protocol_cls::incoming(crow::packet_ptr pack)
 {
 	if (incoming_handler)
 	{
@@ -30,19 +30,14 @@ void crow::pubsub_protocol_cls::incoming(crow::packet * pack)
 				return;
 			}
 		}
-		crow::release(pack);
 	}
 }
 
-void crow::pubsub_protocol_cls::undelivered(crow::packet * pack)
+void crow::pubsub_protocol_cls::undelivered(crow::packet_ptr pack)
 {
 	if (undelivered_handler) 
 	{
 		undelivered_handler(pack);
-	}
-	else 
-	{
-		crow::release(pack);
 	}
 }
 

@@ -67,13 +67,13 @@ namespace crow
 			rfuncmap[name] = new remote_function<Ret, Args...>(dlg);
 		}
 
-		void incoming_packet(crow::packet *pack) override;
+		void incoming_packet(crow::packet_ptr pack) override;
 	};
 
 	class rpc_request_node : public crow::node
 	{
 	public:
-		crow::packet * incpack;
+		crow::packet_ptr incpack;
 
 	public:
 		template <class Ret, class ... Args>
@@ -112,7 +112,7 @@ namespace crow
 			send(rid, addr, args_data, 2, 50);
 		}
 
-		void incoming_packet(crow::packet *pack) override
+		void incoming_packet(crow::packet_ptr pack) override
 		{
 			incpack = pack;
 			notify_one(0);
@@ -178,7 +178,7 @@ namespace crow
 
 			status = wnode.parse_incoming<Ret>(out);
 
-			crow::release(wnode.incpack);
+		//	crow::release(wnode.incpack);
 			return status;
 		}
 
@@ -197,7 +197,7 @@ namespace crow
 
 			status = wnode.parse_incoming_text_format(out);
 
-			crow::release(wnode.incpack);
+			//crow::release(wnode.incpack);
 			return status;
 		}
 	};

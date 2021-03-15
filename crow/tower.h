@@ -15,15 +15,15 @@ namespace crow
 	extern dlist_head protocols;
 	extern bool diagnostic_noack;
 
-	extern void (*user_incoming_handler)(crow::packet *pack);
-	extern void (*user_type_handler)(crow::packet *pack);
-	extern void (*undelivered_handler)(crow::packet *pack);
+	extern void (*user_incoming_handler)(crow::packet_ptr pack);
+	extern void (*user_type_handler)(crow::packet_ptr pack);
+	extern void (*undelivered_handler)(crow::packet_ptr pack);
 
 	extern void (*unsleep_handler)();
 
 	// Передать пакет в обработку.
-	packet_ptr travel(crow::packet *pack);
-	void nocontrol_travel(crow::packet *pack);
+	packet_ptr travel(crow::packet_ptr pack);
+	void nocontrol_travel(crow::packet_ptr pack);
 
 	// Включить трассировку пакетов.
 	void enable_diagnostic();
@@ -59,10 +59,10 @@ namespace crow
 	                         bool fastsend=false);
 
 	// Эта функция вызывается вратами после обработки отсылаемого пакета.
-	void return_to_tower(crow::packet *pack, uint8_t sts);
+	void return_to_tower(crow::packet_ptr pack, uint8_t sts);
 
 	// Используется пользовательским кодом для освобождения пакета.
-	void release(crow::packet *pack);
+	void utilize(crow::packet * pack);
 
 	// Взятие отметки времени.
 	uint16_t millis();
@@ -82,8 +82,6 @@ namespace crow
 	int start_spin();
 	int start_spin_realtime();
 
-	[[deprecated]]
-	void spin_join();
 	void join_spin();
 
 	bool has_untravelled();

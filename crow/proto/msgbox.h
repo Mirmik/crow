@@ -32,9 +32,9 @@ namespace crow
 			uint8_t qos,
 			uint16_t ackquant) ;
 
-		void incoming_packet(crow::packet *pack) override;
+		void incoming_packet(crow::packet_ptr pack) override;
 
-		void undelivered_packet(crow::packet *pack) override;
+		void undelivered_packet(crow::packet_ptr pack) override;
 
 		~msgbox() override;
 	};

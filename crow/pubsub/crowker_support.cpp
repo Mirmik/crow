@@ -2,7 +2,7 @@
 #include "pubsub.h"
 #include "subscriber.h"
 
-void incoming_crowker_handler(struct crow::packet *pack)
+void incoming_crowker_handler(crow::packet_ptr pack)
 {
 
 	struct crow_subheader_pubsub *shps = crow::get_subheader_pubsub(pack);
@@ -56,11 +56,9 @@ void incoming_crowker_handler(struct crow::packet *pack)
 				}
 			}
 	}
-
-	crow::release(pack);
 }
 
-void undelivered_crowker_handler(struct crow::packet *pack)
+void undelivered_crowker_handler(crow::packet_ptr pack)
 {
 	auto shps = crow::get_subheader_pubsub(pack);
 
@@ -73,8 +71,6 @@ void undelivered_crowker_handler(struct crow::packet *pack)
 		crow::crowker::instance()->erase_crow_subscriber(
 		    std::string((char *)pack->addrptr(), pack->header.alen));
 	}
-
-	crow::release(pack);
 }
 
 void crow::pubsub_protocol_cls::enable_crowker_subsystem()

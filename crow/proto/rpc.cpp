@@ -1,6 +1,6 @@
 #include <crow/proto/rpc.h>
 
-void crow::rpc_node::incoming_packet(crow::packet *pack)
+void crow::rpc_node::incoming_packet(crow::packet_ptr pack)
 {
 	int8_t format;
 	int8_t status;
@@ -40,7 +40,6 @@ void crow::rpc_node::incoming_packet(crow::packet *pack)
 		    10
 		);
 
-		crow::release(pack);
 		return;
 	}
 
@@ -108,6 +107,4 @@ void crow::rpc_node::incoming_packet(crow::packet *pack)
 		    10
 		);
 	}
-
-	crow::release(pack);
 }

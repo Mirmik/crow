@@ -69,7 +69,7 @@ crow::packet_ptr crow::node_send_v(uint16_t sid,
 }
 
 void crow::node_protocol_cls::send_node_error(
-    crow::packet *pack, int errcode)
+    crow::packet_ptr pack, int errcode)
 {
 	crow::node_subheader sh;
 
@@ -86,7 +86,7 @@ void crow::node_protocol_cls::send_node_error(
 	crow::send_v(pack->addr(), iov, 2, CROW_NODE_PROTOCOL, 0, pack->ackquant());
 }
 
-void crow::node_protocol_cls::incoming(crow::packet *pack)
+void crow::node_protocol_cls::incoming(crow::packet_ptr pack)
 {
 	crow::node_subheader *sh = (crow::node_subheader *) pack->dataptr();
 	crow::node * srv = nullptr;
@@ -103,7 +103,6 @@ void crow::node_protocol_cls::incoming(crow::packet *pack)
 	if (srv == nullptr)
 	{
 		send_node_error(pack, CROW_ERRNO_UNREGISTRED_RID);
-		crow::release(pack);
 		return;
 	}
 
@@ -115,13 +114,12 @@ void crow::node_protocol_cls::incoming(crow::packet *pack)
 
 		case CROW_NODEPACK_ERROR:
 			srv->notify_one(get_error_code(pack));
-			crow::release(pack);
 			break;
 	}
 	return;
 }
 
-void crow::node_protocol_cls::undelivered(crow::packet *pack)
+void crow::node_protocol_cls::undelivered(crow::packet_ptr pack)
 {
 	crow::node_subheader *sh = (crow::node_subheader *) pack->dataptr();
 
@@ -133,8 +131,6 @@ void crow::node_protocol_cls::undelivered(crow::packet *pack)
 			return;
 		}
 	}
-
-	crow::release(pack);
 }
 
 void crow::__link_node(crow::node *srv, uint16_t id)

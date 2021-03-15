@@ -3,7 +3,7 @@
 #include <crow/tower.h>
 #include <crow/address.h>
 #include <crow/select.h>
-#include <crow/brocker/service.h>
+//#include <crow/brocker/service.h>
 #include <crow/nodes/cli.h>
 #include <crow/netkeep.h>
 
@@ -223,8 +223,8 @@ int main(int argc, char *argv[])
 	//control_node.bind(100);
 	init_control_node();
 
-	auto * service_control_node = crow::crowker_service_control_node();
-	service_control_node->bind(CROWKER_CONTROL_SERVICE_NID);
+	//auto * service_control_node = crow::crowker_service_control_node();
+	//service_control_node->bind(CROWKER_CONTROL_SERVICE_NID);
 
 	crow::spin_with_select();
 }

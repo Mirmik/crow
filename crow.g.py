@@ -45,7 +45,7 @@ licant.modules.module("crow",
 		"proto/msgbox.cpp",
 		"proto/channel-sync.cpp",
 		"pubsub/pubsub.cpp",
-		"proto/service.cpp",
+		#"proto/service.cpp",
 		"proto/rpc.cpp",
 
 		"addons/noslogger.cpp",
@@ -59,7 +59,7 @@ licant.modules.module("crow",
 		"crow.diagnostic",
 		"crow.select",
 
-		"crow.crowker.service_node"
+		#"crow.crowker.service_node"
 	]
 )
 
@@ -112,6 +112,11 @@ licant.modules.module("crow.time", "chrono",
 licant.modules.module("crow.udpgate", 
 	sources=["crow/gates/udpgate.cpp"])
 
+licant.modules.module("crow.tcpgate", 
+	sources=[
+		"crow/gates/tcpgate_server.cpp",
+		"crow/gates/tcpgate_client.cpp"])
+
 licant.modules.module("crow.serial_gstuff", 
 	sources=[
 		"crow/gates/serial_gstuff.cpp",
@@ -130,4 +135,4 @@ licant.module("crow.protocol.pubsub",
 
 #####################################################################################
 
-licant.module("crow.crowker.service_node", sources=["crow/brocker/service.cpp"])
+#licant.module("crow.crowker.service_node", sources=["crow/brocker/service.cpp"])

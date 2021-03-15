@@ -2,6 +2,7 @@
 #include "bincommon.h"
 
 #include <crow/print.h>
+#include <crow/packet_ptr.h>
 #include <map>
 #include <vector>
 
@@ -80,7 +81,7 @@ void binout_mode_prepare(const std::string& fmt)
 	}
 }
 
-void output_binary(igris::buffer data, crow::packet* pack)
+void output_binary(igris::buffer data, crow::packet_ptr pack)
 {
 	igris::strvec result;
 

@@ -18,6 +18,10 @@ void crow::select_collect_fds()
 		{
 			fds.push_back(i);
 		}
+
+		int strt = fds.size();
+		fds.resize(fds.size() + gate.fds_total());
+		gate.set_fds_to_array(&fds[strt]);
 	}
 	
 	if (add_unselect_to_fds)

@@ -12,7 +12,7 @@ namespace crow
 
 		void incoming_packet(crow::packet *pack) 
 		{
-			dlist_add(&pack->ulnk, &q);
+			pack->link_to_user_list(&q);
 		}
 	};
 
@@ -21,17 +21,15 @@ namespace crow
 	public:
 		socket(int nodeno) {this->bind(nodeno); }
 
-		void undelivered_packet(crow::packet *pack) 
-		{
-			crow::release(pack);
-		}
+		void undelivered_packet(crow::packet_ptr pack) override 
+		{}
 
 		crow::packet_ptr send(int rid, igris::buffer addr, const char* data, size_t len, uint8_t qos, uint16_t ackquant) 
 		{
 			return node_send(id, rid, addr, igris::buffer(data, len), qos, ackquant);
 		}
 
-		crow::packet * recv() 
+		crow::packet_ptr recv() 
 		{
 			while (!dlist_empty(&q)) 
 			{
@@ -39,8 +37,8 @@ namespace crow
 				dprln("unwait recv");
 			}
 
-			auto it = dlist_first_entry(&q, crow::packet, ulnk);
-			dlist_del(&it->ulnk);
+			auto it = packet::first_user_list_entry(&q);
+			it->unlink_from_user_list();
 			return it;
 		}
 	};

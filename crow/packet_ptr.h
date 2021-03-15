@@ -11,21 +11,41 @@ namespace crow
 		crow::packet *pack;
 
 	public:
+		packet_ptr() : pack(nullptr) {}
+
 		packet_ptr(crow::packet *pack_) : pack(pack_)
 		{
 			if (pack == nullptr) return;
 
-			pack->refs++;
+			pack->up_ref();
 		}
 
 		packet_ptr(const crow::packet_ptr &oth) : pack(oth.pack)
 		{
-			pack->refs++;
+			pack->up_ref();
 		}
 
 		packet_ptr(crow::packet_ptr &&oth) : pack(oth.pack)
 		{
 			oth.pack = nullptr;
+		}
+
+		packet_ptr & operator = (const crow::packet_ptr &oth) 
+		{
+			if (pack) { pack->down_ref(); }
+
+			pack = oth.pack;
+			pack->up_ref();		
+			return *this;
+		}
+
+		packet_ptr & operator = (crow::packet_ptr &&oth) 
+		{
+			if (pack) { pack->down_ref(); }
+
+			pack = oth.pack;
+			oth.pack = nullptr;
+			return *this;
 		}
 
 		crow::packet* get()
@@ -48,7 +68,11 @@ namespace crow
 			return *pack;
 		}
 
-		~packet_ptr();
+		~packet_ptr() 
+		{
+			if (pack)
+				pack->down_ref();
+		}
 
 		operator bool() { return pack != nullptr; }
 
